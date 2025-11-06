@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+ <head>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <script src="javascripts/Client/enums.js"></script>
+  <script src="javascripts/Client/common.js"></script>
+  <title>Slide Show</title>
+ </head>
+
+ <body class="mainpagebodystyle" id="MainPage" onLoad="InitializeImagePage();">
+
+  <%# Conditionally displayed when the user clicks the screen to display the Controls: %>
+
+  <div class="popup" id="ControlsContainer">
+   <form id="ConfigForm" method="post" name="ConfigForm"> 
+    <input id="action"         name="action"         type="hidden" value="placeholder">	 <%# Page javascript will modify 'placeholder' via button onclick handler.	%>
+    <input id="availableFiles" name="availableFiles" type="hidden" value="<%- result.GetAvailableImages() %>">			
+    <input id="filePathName"   name="filePathName"   type="hidden" value="<%- result.GetRandomPathFileName() %>">			
+    <input id="serverUrl"      name="serverUrl"      type="hidden" value="<%- url %>">	
+    <div>
+     <img alt="button" height="30" id="SettingsImage" onclick="RequestConfigPage();" src="images/GearCyan.png" style="vertical-align: middle;" width="30">
+    </div>
+    <div>
+     <span>
+      <label class="controllabel" for="requestedFilePathName">File:</label>
+      <input class="controltextbox" id="requestedFilePathName" name="requestedFilePathName" readonly size="64" type="text" value="<%- filePathNameStr %>">
+      <input class="controlbutton"  id="deleteBtn"             name="deleteBtn" onclick="DoDelete('<%- encodeURI(result.GetRandomPathFileName()); %>');" type="button" value="Delete">
+      <input class="controlbutton"  id="nextBtn"               name="nextBtn"   onclick="DoNext();"   type="button" value="Next Picture"> 	    
+     </span>
+    </div>
+    <div>
+     <span>     
+      <label class="controllabel" for="requestedDelay">Delay (5-60 seconds):</label>
+      <input class="controltextbox" id="requestedDelay" name="requestedDelay" max="60" min="5" type="number" value="<%- conf.GetDelay() %>">
+      <input class="controlbutton"  id="applyBtn"       name="applyBtn" onclick="SetDelay();"  type="button" value="Apply">
+     </span>
+    </div>
+   </form>
+  </div>
+
+  <%# 'mediaDiv' will provide the container for an image or video to be displayed (See index.js): %>
+  
+  <%- mediaDiv %>
+  
+  <%# Conditionally displayed if there are no images available: %>
+        
+  <div id="ErrorContainer" style="align-items: center; background-color: lightblue; display: none; height: 100vh; justify-content: center; overflow: hidden; visibility: collapse; width: 100vw;">
+	  There are no images available to display in the configured images directory:<br>
+	  <%- conf.GetImagesDirectory() %>.<br><br>    
+	  Click anywhere on the page to reveal the control panel<br>
+	  and use the GEAR icon to access the configuration page<br>
+	  to enter the appropriate directory values.            
+  </div>
+ </body>
+</html>

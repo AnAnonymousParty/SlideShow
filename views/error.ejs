@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang="en">
+ <head>
+  <link href="css/Styles.css" rel="stylesheet">
+  <script src="javascripts/Client/common.js"></script>
+  <title>Slide Show</title>
+ </head>
+
+ <body class="mainpagebodystyle" id="ErrorPage">
+  <h1>
+   <%- message %>
+  </h1>
+  <h2>
+   <%- error.status %>
+  </h2>
+  <pre>
+   <%- error.stack %>
+  </pre>
+ </body>
+</html>

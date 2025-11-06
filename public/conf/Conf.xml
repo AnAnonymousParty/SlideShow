@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<Configuration>
+  <Delay>10</Delay>
+  <DeletedImagesDirectory>C:\DeletedPictures</DeletedImagesDirectory>
+  <ImagesDirectory>C:\Pictures</ImagesDirectory>
+</Configuration>

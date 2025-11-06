@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html lang="en">
+ <head>
+  <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <script src="javascripts/Client/common.js"></script>
+  <script src="javascripts/Client/enums.js"></script>
+  <title>Slide Show Configuration</title>
+ </head>        
+
+ <body class="cfgpagebodystyle" id="ConfigPage">
+  <div id="ControlsContainer" style="align-items: center; background-color: lightblue; height: 500px; justify-content: center; width: 100%;">
+   <form action="/SaveConfig" id="ConfigForm" method="post" name="ConfigForm">     	
+    <input id="action"    name="action"    type="hidden"  value="placeholder">   <%# Page javascript will modify 'placeholder' via button onclick handler.	%>		
+    <input id="serverUrl" name="serverUrl" type="hidden"  value="<%- url %>">	
+    <h1 style="text-align:center;">Server Configuration</h1>
+    <br><br>
+    <div id="ParmsContainer" style="align-items: center; background-color: lightblue; height: 100vh; margin: 0 auto; position: relative; width: 50%;">		
+     <label for="requestedDirectory">Photos Directory:</label>
+     <input id="requestedDirectory" name="requestedDirectory" type="text" value="<%- config.GetImagesDirectory() %>">  
+     <br>
+     <label for="availableImages">Images available:</label>
+     <input id="availableImages" readonly type="text" value="<%- numPics %>">  
+     <br>		
+     <label for="requestedDeleteDirectory">Delete Target Directory:</label>
+     <input id="requestedDeleteDirectory" name="requestedDeleteDirectory" type="text" value="<%- config.GetDeletedImagesDirectory() %>">  
+     <br>
+     <label for="requestedDelay">Delay (5-60 seconds):</label>
+     <input id="requestedDelay" name="requestedDelay" max="60" min="5" type="number" value="<%- config.GetDelay() %>">
+     <br><br>
+     <input id="applyBtn" name="applyBtn" onclick="SubmitConfig();" type="button" value="Apply">
+     <input id="backBtn"  name="backBtn"  onclick="ReloadPage()();" type="button" value="Return to Main Page">  
+    </div>
+   </form>
+  </div>
+ </body>
+</html>
