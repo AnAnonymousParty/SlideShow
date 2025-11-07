@@ -89,10 +89,19 @@ class FileUtils {
 
 		let filesList = this.GetFilesList();
 
-		if (0 != filesList.length) {     
-			let random = Math.floor(Math.random() * filesList.length + 1);
-    
-			let pathFileNameStr = filesList[random];
+		if (0 != filesList.length) {  
+
+			let pathFileNameStr = "";
+
+			for (;;) {
+				let random = Math.floor(Math.random() * filesList.length + 1);
+
+				pathFileNameStr = filesList[random];
+
+				if ("undefined" !== typeof pathFileNameStr) {
+					break;
+				}
+			}
 
 			this.diags.LogSubExit(this.whoAmI, "GetRandomImagePathFileName", pathFileNameStr, "");
 

@@ -71,6 +71,7 @@
     top:              0;
     visibility:       collapse;
     width:            fit-content;
+    z-index:          100;
 }
 
 @keyframes gradient {

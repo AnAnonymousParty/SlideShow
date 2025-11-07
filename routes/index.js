@@ -19,7 +19,7 @@ var fileUtilsObj = new fileUtils.FileUtils(diagsObj, fs, path, grfpRslt, confObj
 
 var result = fileUtilsObj.GetRandomImagePathFileName();
 
-var filePathNameStr    = result.GetRandomPathFileName();
+var filePathNameStr    = result.GetPathFileName();
 var filePathNameEncStr = encodeURI(filePathNameStr);
 
 var fileType = enums.GetEnumFromFilePathName(filePathNameStr);
@@ -30,49 +30,15 @@ router.get('/', function (req, res, next) {
 
  confObj.LoadConfiguration();
 
- let mediaDiv     = "";
- let onLoadAction = "";
-
- switch (fileType) {
-  case enums.FileTypes.IMAGE: {
-   onLoadAction = "InitializeImagePage();";
-
-   mediaDiv = "<div id=\"ImageContainer\" style=\"align-items: center; display: flex; height: 98vh; justify-content: center; overflow: hidden; width: 98vw;\">" + "\n\r"
-            + " <img alt=\"Picture\" id=\"DispImage\" src=\"\" style=\"height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;\">" + "\n\r"
-            + "</div>";
-   }
-   break;
-
-  case enums.FileTypes.VIDEO: {
-   onLoadAction = "InitializeVideoPage();";
-
-   mediaDiv = "<div id=\"VideoContainer\" style=\"align-items: center; display: flex; height: 98vh; justify-content: center; overflow: hidden; width: 100vw;\">" + "\n\r"
-            + " <video autoplay=\"\" id=\"DispVideo\" muted=\"\" playsinline=\"\" poster=\"images/loading.gif\" src=\"\" onended=\"HandleVideoEnded();\" style=\"height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;\">" + "\n\r"
-            + " </video>" + "\n\r"
-            + "</div>";
-   }
-   break;
-
-  case enums.FileTypes.UNKNOWN:
-  default: {
-   onLoadAction = "InitializeImagePage();";
-
-   mediaDiv = "<div id=\"ImageContainer\" style=\"align-items: center; display: flex; height: 98vh; justify-content: center; overflow: hidden; width: 100vw;\">" + "\n\r"
-            + " <img alt=\"Picture\" id=\"DispImage\" src=\"http://" + req.get('host') + "?action=getNamedImage&requestedFilePathName=" + filePathNameEncStr + "\">" + "\n\r"
-            + "</div>";
-   }
-   break;
- }
+ diagsObj.LogSubInfo("index", "router.get", "File = " + filePathNameStr + " type = " + fileType, "");
 
  res.render('index', {
             conf:               confObj,
             title:              'Slide Show',
             result:             result,
-            action:             onLoadAction,
             fileType:           fileType,
             filePathNameEncStr: filePathNameEncStr,
             filePathNameStr:    filePathNameStr,
-            mediaDiv:           mediaDiv,
             url:                req.get('host')
  });
 

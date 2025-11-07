@@ -8,12 +8,12 @@ class GetRandomFileResult {
 	/**
 		* Constructor, given:
 		* <p>
-		* @param availableImages    The number of available images.
-		* @param randomPathFileName String containing the path/name of an image file.
+		* @param availableImages The number of available images.
+		* @param pathFileName    String containing the path/name of an image file.
 		*/
-		constructor(availableImages, randomPathFileName) {
-			this.availableImages    = availableImages;
-			this.randomPathFileName = randomPathFileName;
+		constructor(availableImages, pathFileName) {
+			this.availableImages = availableImages;
+			this.pathFileName    = pathFileName;
 		}
 
 		/**
@@ -30,8 +30,8 @@ class GetRandomFileResult {
 	* <p>
 	* @returns The path/name of the image file.
 	*/
-		GetRandomPathFileName() {
-			return this.randomPathFileName;
+		GetPathFileName() {
+			return this.pathFileName;
 		}
 }
 

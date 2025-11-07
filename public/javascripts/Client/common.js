@@ -2,18 +2,19 @@ var controlsTimer;
 var delayTimer;
 
 function DelayTimerElapsed() {
-	console.log("DelayTimerElapsed()"); 
+	console.log("> DelayTimerElapsed()"); 
 	
 	ReloadPage();
+
+	console.log("< DelayTimerElapsed()");
 } 
- 
 function DoDelete(filePath2Delete) {
 	console.log("> DoDelete(" + filePath2Delete + ")");
 
 	var xhr = new XMLHttpRequest();
 
 	xhr.onreadystatechange = function () {
-		if (ReadyStateType.DONE != xhr.readyState) {
+		if (ReadyStateTypes.DONE != xhr.readyState) {
 			return;
 		}
 
@@ -55,9 +56,9 @@ function HideControls() {
 
 	delayTimer = setInterval(DelayTimerElapsed, delay);
 } 
- 
-function InitializeImagePage() {
-	console.log("> InitializeImagePage()");
+
+function InitPage() {
+	console.log("> InitPage()");
 
 	var xhr = new XMLHttpRequest();
 
@@ -68,79 +69,87 @@ function InitializeImagePage() {
 			return;
 		}
 
+		var availableFiles = document.getElementById("availableFiles").value;
+		var delay = document.getElementById("requestedDelay").value * 1000;
+
+		if (0 == availableFiles) {
+			document.getElementById("ErrorContainer").style.display    = "flex";
+			document.getElementById("ErrorContainer").style.visibility = "visible";
+
+			document.getElementById("ImageContainer").style.display    = "none";
+			document.getElementById("ImageContainer").style.visibility = "collapse";
+
+			document.getElementById("VideoContainer").style.display    = "none";
+			document.getElementById("VideoContainer").style.visibility = "collapse";
+		} else {
+			document.getElementById("ErrorContainer").style.display    = "none";
+			document.getElementById("ErrorContainer").style.visibility = "collapse";
+		}
+
+		document.onclick = ShowControls;
+
+		if (null == delayTimer) {
+			delayTimer = setInterval(DelayTimerElapsed, delay);
+		}
+
 		if (HttpStatusTypes.OK == xhr.status || HttpStatusTypes.NOTMODIFIED == xhr.status) {
 			xhr.addEventListener('load', function () {
 				if (HttpStatusTypes.OK === xhr.status) {
+					let type = xhr.getResponseHeader('content-type');
+					let pieces = type.split("/");
+
+					type = pieces[0];
+
+					console.log(">> InitPage().load type = " + type);
+
 					let blob = new Blob([xhr.response]);
 
 					const img = new Image();
+
 					img.src = URL.createObjectURL(blob);
 
-					document.getElementById("DispImage").src = img.src;
+					if ("image" == type) {
+						document.getElementById("ImageContainer").style.display    = "flex";
+						document.getElementById("ImageContainer").style.visibility = "visible";
+
+						document.getElementById("VideoContainer").style.display    = "none";
+						document.getElementById("VideoContainer").style.visibility = "collapse";
+
+						document.getElementById("ImageContainer").onclick = ShowControls;
+						document.getElementById("DispImage").src          = img.src;
+
+						if (null == delayTimer) {
+							delayTimer = setInterval(DelayTimerElapsed, delay);
+						}
+					}
+
+					if ("video" == type) {
+						document.getElementById("ImageContainer").style.display    = "none";
+						document.getElementById("ImageContainer").style.visibility = "collapse";
+
+						document.getElementById("VideoContainer").style.display    = "flex";
+						document.getElementById("VideoContainer").style.visibility = "visible";
+
+						document.getElementById("VideoContainer").onclick = ShowControls;
+						document.getElementById("DispVideo").src          = img.src;
+
+						if (null != delayTimer) {
+							clearInterval(delayTimer);
+						}
+					}
 				}
 			});
 		}
 		else {
-			// TODO: Handle failure, if needed.
+			console.log("  InitPage() error = " + xhr.status);
 		}
 	}
 
 	xhr.open("GET", "/GetNextImage", true);
 	xhr.send();
 
- var availableFiles = document.getElementById("availableFiles").value;
-	var delay          = document.getElementById("requestedDelay").value * 1000;
-	 
-	if (0 == availableFiles) {
-	 document.getElementById("ErrorContainer").style.display    = "flex";
-		document.getElementById("ErrorContainer").style.visibility = "visible";
-			
-	 document.getElementById("ImageContainer").style.display    = "none";
-	 document.getElementById("ImageContainer").style.visibility = "collapse";
-	} else {
-		document.getElementById("ErrorContainer").style.display    = "none";
-		document.getElementById("ErrorContainer").style.visibility = "collapse";
-
-	 document.getElementById("ImageContainer").style.display    = "flex";
-	 document.getElementById("ImageContainer").style.visibility = "visible";
-	}
-	 
-	document.onclick = ShowControls;
-	document.getElementById("DispImage").onclick = ShowControls;
-	 
-	if (null == delayTimer) {
-	 delayTimer = setInterval(DelayTimerElapsed, delay);
-	}
-	 
-	console.log("< InitializeImagePage()"); 
-} 
-
-function InitializeVideoPage() {
-	console.log("> InitializeVideoPage()");
-
- var availableFiles = document.getElementById("availableFiles").value;
-	 
-	 if (0 == availableFiles) {
-	  document.getElementById("ErrorContainer").style.display    = "flex";
-		 document.getElementById("ErrorContainer").style.visibility = "visible";
-	  document.getElementById("VideoContainer").style.display    = "none";
-	  document.getElementById("VideoContainer").style.visibility = "collapse";
-	 } else {
-		 document.getElementById("ErrorContainer").style.display    = "none";
-		 document.getElementById("ErrorContainer").style.visibility = "collapse";
-	  document.getElementById("VideoContainer").style.display    = "flex";
-	  document.getElementById("VideoContainer").style.visibility = "visible";
-	 }
-	 
-	 document.onclick = ShowControls;
-	 document.getElementById("DispVideo").onclick = ShowControls;
-	 
-	 if (null != delayTimer) {
-	 	clearInterval(delayTimer);
-	 }
-	 
-	console.log("< InitializeVideoPage()"); 
-} 
+	console.log("< InitPage()");
+}
  
 function ReloadPage() {
 	console.log("> ReloadPage()");

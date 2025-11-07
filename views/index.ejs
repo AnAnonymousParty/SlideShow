@@ -9,7 +9,7 @@
   <title>Slide Show</title>
  </head>
 
- <body class="mainpagebodystyle" id="MainPage" onLoad="InitializeImagePage();">
+ <body class="mainpagebodystyle" id="MainPage" onLoad="InitPage();">
 
   <%# Conditionally displayed when the user clicks the screen to display the Controls: %>
 
@@ -17,7 +17,7 @@
    <form id="ConfigForm" method="post" name="ConfigForm"> 
     <input id="action"         name="action"         type="hidden" value="placeholder">	 <%# Page javascript will modify 'placeholder' via button onclick handler.	%>
     <input id="availableFiles" name="availableFiles" type="hidden" value="<%- result.GetAvailableImages() %>">			
-    <input id="filePathName"   name="filePathName"   type="hidden" value="<%- result.GetRandomPathFileName() %>">			
+    <input id="filePathName"   name="filePathName"   type="hidden" value="<%- result.GetPathFileName() %>">			
     <input id="serverUrl"      name="serverUrl"      type="hidden" value="<%- url %>">	
     <div>
      <img alt="button" height="30" id="SettingsImage" onclick="RequestConfigPage();" src="images/GearCyan.png" style="vertical-align: middle;" width="30">
@@ -26,7 +26,7 @@
      <span>
       <label class="controllabel" for="requestedFilePathName">File:</label>
       <input class="controltextbox" id="requestedFilePathName" name="requestedFilePathName" readonly size="64" type="text" value="<%- filePathNameStr %>">
-      <input class="controlbutton"  id="deleteBtn"             name="deleteBtn" onclick="DoDelete('<%- encodeURI(result.GetRandomPathFileName()); %>');" type="button" value="Delete">
+      <input class="controlbutton"  id="deleteBtn"             name="deleteBtn" onclick="DoDelete('<%- encodeURI(result.GetPathFileName()); %>');" type="button" value="Delete">
       <input class="controlbutton"  id="nextBtn"               name="nextBtn"   onclick="DoNext();"   type="button" value="Next Picture"> 	    
      </span>
     </div>
@@ -40,9 +40,22 @@
    </form>
   </div>
 
-  <%# 'mediaDiv' will provide the container for an image or video to be displayed (See index.js): %>
-  
-  <%- mediaDiv %>
+  <%# Conditionally displayed for an image: %>
+
+  <div id="ImageContainer" style=""display: none; visibility: collapse;">
+   <div style="align-items: center; display: flex; height: 98vh; justify-content: center; overflow: hidden;  width: 98vw;">
+    <img alt="Picture" id="DispImage" src="" style="height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;"\>
+   </div>
+  </div>
+
+  <%# Conditionally displayed for a video: %>
+
+  <div id="VideoContainer" style=""display: none; visibility: collapse;">
+   <div style="align-items: center; display: flex; height: 98vh; justify-content: center; width: 98vw;">
+    <video autoplay="" id="DispVideo" muted="" playsinline="" poster="images/loading.gif" src="" onended="HandleVideoEnded();" style="height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;">
+    </video>
+   </div>
+  </div>
   
   <%# Conditionally displayed if there are no images available: %>
         

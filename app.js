@@ -11,6 +11,7 @@ const xmlBuilder   = require('xmlbuilder2');
 // Own own things we need:
 const conf      = require('./public/javascripts/Server/configuration.js');
 const diags     = require('./public/javascripts/Server/diagnostics.js');
+const enums     = require('./public/javascripts/Server/enums.js');
 const fileUtils = require('./public/javascripts/Server/fileUtils.js');
 const grfpRslt  = require('./public/javascripts/Server/getRandomFilePathResult.js');
 
@@ -66,19 +67,20 @@ app.get('/DeleteImage', (req, res) => {
  });
   
  res.status(200).send("OK");
-
+ h
  diagsObj.LogSubExit("app", "get/DeleteImage", "", "");
 });
 
 app.get('/GetNextImage', (req, res) => {
  diagsObj.LogSubCall("app", "get/GetNextImage", "", "");
 
- let filePathName = fileUtilsObj.GetRandomImagePathFileName().GetRandomPathFileName();
+ let filePathName = fileUtilsObj.GetRandomImagePathFileName().GetPathFileName();
+ let fileType     = enums.GetEnumFromFilePathName(filePathName);
 
- diagsObj.LogSubInfo("app", "get/GetNextImage", "", "image = " + filePathName);
+ diagsObj.LogSubInfo("app", "get/GetNextImage", "", "image=" + filePathName + " type=" + fileType);
 
  res.sendfile(filePathName);
-
+ 
  diagsObj.LogSubExit("app", "get/GetNextImage", "", "");
 });
 
