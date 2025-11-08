@@ -9,8 +9,6 @@ function DelayTimerElapsed() {
 	console.log("< DelayTimerElapsed()");
 } 
 function DoDelete() {
-	let filePath2Delete = document.getElementById("requestedFilePathName").value;
-
 	console.log("> DoDelete()");
 
 	var xhr = new XMLHttpRequest();
@@ -28,7 +26,7 @@ function DoDelete() {
 		}
 	}
 
-	var params = "Image2Delete=" + filePath2Delete;
+	var params = "Image2Delete=" + encodeURI(document.getElementById("requestedFilePathName").value);
 
 	xhr.open("GET", "/DeleteImage?" + params, true);
 	xhr.send();
@@ -71,7 +69,7 @@ function InitPage() {
 			return;
 		}
 
-		let filePathName = xhr.getResponseHeader("Referer");
+		let filePathName = xhr.getResponseHeader("Content-Location");
 
 		var availableFiles = document.getElementById("availableFiles").value;
 		var delay = document.getElementById("requestedDelay").value * 1000;

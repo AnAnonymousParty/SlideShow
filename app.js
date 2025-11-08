@@ -79,7 +79,10 @@ app.get('/GetNextImage', (req, res) => {
 
  diagsObj.LogSubInfo("app", "get/GetNextImage", "", "image=" + filePathName + " type=" + fileType);
 
- res.setHeader("Referer", filePathName);
+ // Shove the filename into the Content-Location header so the client javascript 
+ // can use it as the target of the Delete button:
+
+ res.setHeader("Content-Location", filePathName);  
 
  res.status(200);
  res.sendfile(filePathName);
