@@ -8,8 +8,10 @@ function DelayTimerElapsed() {
 
 	console.log("< DelayTimerElapsed()");
 } 
-function DoDelete(filePath2Delete) {
-	console.log("> DoDelete(" + filePath2Delete + ")");
+function DoDelete() {
+	let filePath2Delete = document.getElementById("requestedFilePathName").value;
+
+	console.log("> DoDelete()");
 
 	var xhr = new XMLHttpRequest();
 
@@ -69,6 +71,8 @@ function InitPage() {
 			return;
 		}
 
+		let filePathName = xhr.getResponseHeader("Referer");
+
 		var availableFiles = document.getElementById("availableFiles").value;
 		var delay = document.getElementById("requestedDelay").value * 1000;
 
@@ -109,14 +113,16 @@ function InitPage() {
 					img.src = URL.createObjectURL(blob);
 
 					if ("image" == type) {
-						document.getElementById("ImageContainer").style.display    = "flex";
+						document.getElementById("ImageContainer").style.display = "flex";
 						document.getElementById("ImageContainer").style.visibility = "visible";
 
-						document.getElementById("VideoContainer").style.display    = "none";
+						document.getElementById("VideoContainer").style.display = "none";
 						document.getElementById("VideoContainer").style.visibility = "collapse";
 
 						document.getElementById("ImageContainer").onclick = ShowControls;
-						document.getElementById("DispImage").src          = img.src;
+						document.getElementById("DispImage").src = img.src;
+
+						document.getElementById("requestedFilePathName").value = filePathName;
 
 						if (null == delayTimer) {
 							delayTimer = setInterval(DelayTimerElapsed, delay);
@@ -124,15 +130,17 @@ function InitPage() {
 					}
 
 					if ("video" == type) {
-						document.getElementById("ImageContainer").style.display    = "none";
+						document.getElementById("ImageContainer").style.display = "none";
 						document.getElementById("ImageContainer").style.visibility = "collapse";
 
-						document.getElementById("VideoContainer").style.display    = "flex";
+						document.getElementById("VideoContainer").style.display = "flex";
 						document.getElementById("VideoContainer").style.visibility = "visible";
 
 						document.getElementById("VideoContainer").onclick = ShowControls;
-						document.getElementById("DispVideo").src          = img.src;
+						document.getElementById("DispVideo").src = img.src;
 
+						document.getElementById("requestedFilePathName").value = filePathName;
+						
 						if (null != delayTimer) {
 							clearInterval(delayTimer);
 						}

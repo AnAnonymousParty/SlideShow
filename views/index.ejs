@@ -26,7 +26,7 @@
      <span>
       <label class="controllabel" for="requestedFilePathName">File:</label>
       <input class="controltextbox" id="requestedFilePathName" name="requestedFilePathName" readonly size="64" type="text" value="<%- filePathNameStr %>">
-      <input class="controlbutton"  id="deleteBtn"             name="deleteBtn" onclick="DoDelete('<%- encodeURI(result.GetPathFileName()); %>');" type="button" value="Delete">
+      <input class="controlbutton"  id="deleteBtn"             name="deleteBtn" onclick="DoDelete();" type="button" value="Delete">
       <input class="controlbutton"  id="nextBtn"               name="nextBtn"   onclick="DoNext();"   type="button" value="Next Picture"> 	    
      </span>
     </div>

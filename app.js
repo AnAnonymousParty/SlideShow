@@ -67,7 +67,7 @@ app.get('/DeleteImage', (req, res) => {
  });
   
  res.status(200).send("OK");
- h
+ 
  diagsObj.LogSubExit("app", "get/DeleteImage", "", "");
 });
 
@@ -79,6 +79,9 @@ app.get('/GetNextImage', (req, res) => {
 
  diagsObj.LogSubInfo("app", "get/GetNextImage", "", "image=" + filePathName + " type=" + fileType);
 
+ res.setHeader("Referer", filePathName);
+
+ res.status(200);
  res.sendfile(filePathName);
  
  diagsObj.LogSubExit("app", "get/GetNextImage", "", "");
