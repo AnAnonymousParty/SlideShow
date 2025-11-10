@@ -76,6 +76,10 @@ app.get('/GetNextImage', (req, res) => {
 
  let allowVideo = req.query.AllowVideo; 
 
+ if ("" == allowVideo) {
+  allowVideo = "true";
+ }
+
  let filePathName = "";
  let fileType     = "";
 
