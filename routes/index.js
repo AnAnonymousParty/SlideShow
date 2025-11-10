@@ -4,25 +4,25 @@ const path         = require('path');
 const xml2jsParser = require('xml2js-parser');
 const xmlBuilder   = require('xmlbuilder2');
 
-var router = express.Router();
+let router = express.Router();
 
 const diags    = require('../public/javascripts/Server/diagnostics.js');
 const diagsObj = new diags.Diagnostics();
 
-var fileUtils = require(path.join(__dirname, '../public/javascripts/Server/fileUtils.js'));
-var conf      = require(path.join(__dirname, '../public/javascripts/Server/configuration.js'));
-var enums     = require(path.join(__dirname, '../public/javascripts/Server/enums.js'));
-var grfpRslt  = require(path.join(__dirname, '../public/javascripts/Server/getRandomFilePathResult.js'));
+let fileUtils = require(path.join(__dirname, '../public/javascripts/Server/fileUtils.js'));
+let conf      = require(path.join(__dirname, '../public/javascripts/Server/configuration.js'));
+let enums     = require(path.join(__dirname, '../public/javascripts/Server/enums.js'));
+let grfpRslt  = require(path.join(__dirname, '../public/javascripts/Server/getRandomFilePathResult.js'));
 
-var confObj      = new conf.Configuration(diagsObj, fs, xml2jsParser, xmlBuilder, path.join(__dirname, "../public/conf/Conf.xml")); 
-var fileUtilsObj = new fileUtils.FileUtils(diagsObj, fs, path, grfpRslt, confObj);
+let confObj      = new conf.Configuration(diagsObj, fs, xml2jsParser, xmlBuilder, path.join(__dirname, "../public/conf/Conf.xml")); 
+let fileUtilsObj = new fileUtils.FileUtils(diagsObj, fs, path, grfpRslt, confObj);
 
-var result = fileUtilsObj.GetRandomImagePathFileName();
+let result = fileUtilsObj.GetRandomImagePathFileName();
 
-var filePathNameStr    = result.GetPathFileName();
-var filePathNameEncStr = encodeURI(filePathNameStr);
+let filePathNameStr    = result.GetPathFileName();
+let filePathNameEncStr = encodeURI(filePathNameStr);
 
-var fileType = enums.GetEnumFromFilePathName(filePathNameStr);
+let fileType = enums.GetEnumFromFilePathName(filePathNameStr);
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

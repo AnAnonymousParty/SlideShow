@@ -104,7 +104,7 @@ function GetEnumFromFileDesc(desc) {
 }
 
  function GetEnumFromFilePathName(filePathName) {
-  var lc = filePathName.toLowerCase();
+  let lc = filePathName.toLowerCase();
 
   for (;;) {
    if (true == lc.endsWith(".gif")) {

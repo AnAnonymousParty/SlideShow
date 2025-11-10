@@ -11,7 +11,7 @@ function DelayTimerElapsed() {
 function DoDelete() {
 	console.log("> DoDelete()");
 
-	var xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 
 	xhr.onreadystatechange = function () {
 		if (ReadyStateTypes.DONE != xhr.readyState) {
@@ -26,7 +26,7 @@ function DoDelete() {
 		}
 	}
 
-	var params = "Image2Delete=" + encodeURI(document.getElementById("requestedFilePathName").value);
+	let params = "Image2Delete=" + encodeURI(document.getElementById("requestedFilePathName").value);
 
 	xhr.open("GET", "/DeleteImage?" + params, true);
 	xhr.send();
@@ -92,7 +92,7 @@ function InitPage() {
 
 	document.getElementById("AllowVideo").checked = ("false" == GetCookie("AllowVideo") ? false : true);
 	
-	var xhr = new XMLHttpRequest();
+	let xhr = new XMLHttpRequest();
 
 	xhr.responseType = 'arraybuffer';
 
@@ -101,9 +101,8 @@ function InitPage() {
 			return;
 		}
 
-		let filePathName = xhr.getResponseHeader("Content-Location");
-
-		var availableFiles = document.getElementById("availableFiles").value;
+		let filePathName   = xhr.getResponseHeader("Content-Location");
+		let availableFiles = document.getElementById("availableFiles").value;
 
 		if (0 == availableFiles) {
 			document.getElementById("ErrorContainer").style.display    = "flex";
@@ -128,7 +127,7 @@ function InitPage() {
 		if (HttpStatusTypes.OK == xhr.status || HttpStatusTypes.NOTMODIFIED == xhr.status) {
 			xhr.addEventListener('load', function () {
 				if (HttpStatusTypes.OK === xhr.status) {
-					let type = xhr.getResponseHeader('content-type');
+					let type   = xhr.getResponseHeader('content-type');
 					let pieces = type.split("/");
 
 					type = pieces[0];

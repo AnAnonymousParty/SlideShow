@@ -20,10 +20,10 @@ const indexRouter  = require('./routes/index');
 
 let diagsObj = new diags.Diagnostics();
 
-var confObj = new conf.Configuration(diagsObj, fs, xml2jsParser, xmlBuilder, path.join(__dirname, "/public/conf/Conf.xml"));
-var fileUtilsObj = new fileUtils.FileUtils(diagsObj, fs, path, grfpRslt, confObj);
+let confObj      = new conf.Configuration(diagsObj, fs, xml2jsParser, xmlBuilder, path.join(__dirname, "/public/conf/Conf.xml"));
+let fileUtilsObj = new fileUtils.FileUtils(diagsObj, fs, path, grfpRslt, confObj);
 
-var app = express();
+let app = express();
 
 // View engine setup:
 app.set('views', path.join(__dirname, 'views'));
@@ -74,12 +74,7 @@ app.get('/DeleteImage', (req, res) => {
 app.get('/GetNextImage', (req, res) => {
  diagsObj.LogSubCall("app", "get/GetNextImage", "", "");
 
- let allowVideo = req.query.AllowVideo; 
-
- if ("" == allowVideo) {
-  allowVideo = "true";
- }
-
+ let allowVideo   = ("" == req.query.AllowVideo ? "true" : req.query.AllowVideo); 
  let filePathName = "";
  let fileType     = "";
 

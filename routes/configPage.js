@@ -6,10 +6,10 @@ const xmlBuilder   = require('xmlbuilder2');
 
 const router = express.Router();
 
-var config    = require(path.join(__dirname, '../public/javascripts/Server/configuration.js'));
-var diags     = require(path.join(__dirname, '../public/javascripts/Server/diagnostics.js'));
-var fileUtils = require(path.join(__dirname, '../public/javascripts/Server/fileUtils.js'));
-var grfpRslt  = require(path.join(__dirname, '../public/javascripts/Server/getRandomFilePathResult.js'));
+let config    = require(path.join(__dirname, '../public/javascripts/Server/configuration.js'));
+let diags     = require(path.join(__dirname, '../public/javascripts/Server/diagnostics.js'));
+let fileUtils = require(path.join(__dirname, '../public/javascripts/Server/fileUtils.js'));
+let grfpRslt  = require(path.join(__dirname, '../public/javascripts/Server/getRandomFilePathResult.js'));
 
 let diagsObj     = new diags.Diagnostics();
 let confObj      = new config.Configuration(diagsObj, fs, xml2jsParser, xmlBuilder, path.join(__dirname, '../public/conf/Conf.xml'), "");

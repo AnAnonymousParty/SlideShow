@@ -120,19 +120,19 @@ class Configuration {
 	SaveConfiguration() {
 		this.diags.LogSubCall(this.whoAmI, "SaveConfiguration", "", "");
 
-		var doc = this.xmlbuilder.create({ version: '1.0' });
-
-		var rootElem = doc.ele('Configuration');
-
-		var delayElem            = rootElem.ele('Delay');
-		var deletedImagesDirElem = rootElem.ele('DeletedImagesDirectory');
-		var imagesDirElem        = rootElem.ele('ImagesDirectory');
+		let doc = this.xmlbuilder.create({ version: '1.0' });
+		
+		let rootElem = doc.ele('Configuration');
+		l
+		let delayElem            = rootElem.ele('Delay');
+		let deletedImagesDirElem = rootElem.ele('DeletedImagesDirectory');
+		let imagesDirElem        = rootElem.ele('ImagesDirectory');
 
 		delayElem.txt(this.GetDelay());
 		deletedImagesDirElem.txt(this.GetDeletedImagesDirectory());
 		imagesDirElem.txt(this.GetImagesDirectory());
 
-		var xml = doc.end({ prettyPrint: true });
+		let xml = doc.end({ prettyPrint: true });
 
 		try {
 			this.fs.writeFileSync(this.confFilePathName, xml);
