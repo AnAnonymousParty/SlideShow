@@ -74,8 +74,19 @@ app.get('/DeleteImage', (req, res) => {
 app.get('/GetNextImage', (req, res) => {
  diagsObj.LogSubCall("app", "get/GetNextImage", "", "");
 
- let filePathName = fileUtilsObj.GetRandomImagePathFileName().GetPathFileName();
- let fileType     = enums.GetEnumFromFilePathName(filePathName);
+ let allowVideo = req.query.AllowVideo; 
+
+ let filePathName = "";
+ let fileType     = "";
+
+ for (;;) {
+  filePathName = fileUtilsObj.GetRandomImagePathFileName().GetPathFileName();
+  fileType     = enums.GetEnumFromFilePathName(filePathName);
+
+  if ("true" == allowVideo || ("false" == allowVideo && "Image" == fileType)) {
+   break;
+  }
+ }
 
  diagsObj.LogSubInfo("app", "get/GetNextImage", "", "image=" + filePathName + " type=" + fileType);
 
@@ -88,20 +99,6 @@ app.get('/GetNextImage', (req, res) => {
  res.sendfile(filePathName);
  
  diagsObj.LogSubExit("app", "get/GetNextImage", "", "");
-});
-
-app.get('/SetDelay', (req, res) => {
- let delay = decodeURI(req.query.Delay);
-
- diagsObj.LogSubCall("app", "get/SetDelay", delay, "");
-
- confObj.SetDelay(delay);
-
- confObj.SaveConfiguration();
-
- res.status(200).send("OK");
-
- diagsObj.LogSubExit("app", "get/SetDelay", "", "");
 });
 
 /*------------------------------- POST handlers -----------------------------*/

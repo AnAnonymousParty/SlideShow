@@ -41,6 +41,28 @@ function DoNext() {
 	console.log("< DoNext()");
 }
 
+function GetCookie(cookieName) {
+	console.log("> GetCookie(" + cookieName + ")");
+
+	let cookieValue = "";
+
+	const cookies = document.cookie.split('; ');
+
+	for (const cookie of cookies) {
+		const [name, value] = cookie.split('=');
+
+		if (name === cookieName) {
+			cookieValue = value;
+
+			break;
+		}
+	}
+
+	console.log("< GetCookie() [" + cookieValue + "]");
+
+	return (cookieValue);
+}
+
 function HandleVideoEnded() {
 	console.log("> HandleVideoEnded()");
 	
@@ -60,6 +82,16 @@ function HideControls() {
 function InitPage() {
 	console.log("> InitPage()");
 
+	let delay = document.getElementById("requestedDelay").value * 1000;
+
+	let delayCookieValue = GetCookie("Delay") * 1000;
+
+	if ("" != delayCookieValue) {
+		delay = delayCookieValue;
+	}
+
+	document.getElementById("AllowVideo").checked = ("false" == GetCookie("AllowVideo") ? false : true);
+	
 	var xhr = new XMLHttpRequest();
 
 	xhr.responseType = 'arraybuffer';
@@ -72,7 +104,6 @@ function InitPage() {
 		let filePathName = xhr.getResponseHeader("Content-Location");
 
 		var availableFiles = document.getElementById("availableFiles").value;
-		var delay = document.getElementById("requestedDelay").value * 1000;
 
 		if (0 == availableFiles) {
 			document.getElementById("ErrorContainer").style.display    = "flex";
@@ -111,13 +142,14 @@ function InitPage() {
 					img.src = URL.createObjectURL(blob);
 
 					if ("image" == type) {
-						document.getElementById("ImageContainer").style.display = "flex";
+						document.getElementById("ImageContainer").style.display    = "flex";
 						document.getElementById("ImageContainer").style.visibility = "visible";
 
-						document.getElementById("VideoContainer").style.display = "none";
+						document.getElementById("VideoContainer").style.display    = "none";
 						document.getElementById("VideoContainer").style.visibility = "collapse";
 
 						document.getElementById("ImageContainer").onclick = ShowControls;
+
 						document.getElementById("DispImage").src = img.src;
 
 						document.getElementById("requestedFilePathName").value = filePathName;
@@ -128,13 +160,14 @@ function InitPage() {
 					}
 
 					if ("video" == type) {
-						document.getElementById("ImageContainer").style.display = "none";
+						document.getElementById("ImageContainer").style.display    = "none";
 						document.getElementById("ImageContainer").style.visibility = "collapse";
-
-						document.getElementById("VideoContainer").style.display = "flex";
+						 
+						document.getElementById("VideoContainer").style.display    = "flex";
 						document.getElementById("VideoContainer").style.visibility = "visible";
 
 						document.getElementById("VideoContainer").onclick = ShowControls;
+
 						document.getElementById("DispVideo").src = img.src;
 
 						document.getElementById("requestedFilePathName").value = filePathName;
@@ -151,7 +184,7 @@ function InitPage() {
 		}
 	}
 
-	xhr.open("GET", "/GetNextImage", true);
+	xhr.open("GET", "/GetNextImage?AllowVideo=" + GetCookie("AllowVideo") , true);
 	xhr.send();
 
 	console.log("< InitPage()");
@@ -168,35 +201,30 @@ function ReloadPage() {
 function RequestConfigPage() {
 	console.log("> RequestConfigPage()");
 	
-	location.href = "http://" + document.getElementById("serverUrl").value + "/ShowConfigPage"
+	location.href = "http://" + document.getElementById("serverUrl").value + "/ShowConfigPage" ;
 	              
 	console.log("< RequestConfigPage()");
 }  
 
-function SetDelay() {
-	console.log("> SetDelay()");
+function SetCookie(cookieName, cookieValue) {
+	console.log("> SetCookie(" + cookieName + ", " + cookieValue + ")");
 
-	var xhr = new XMLHttpRequest();
+	const dateNow = new Date();
+	const timeNow = dateNow.getTime();
+	const dateYearFromNow = new Date(timeNow + 365 * 24 * 60 * 60 * 1000);
 
-	xhr.onreadystatechange = function () {
-		if (ReadyStateTypes.DONE != xhr.readyState) {
-			return;
-		}
+	document.cookie = cookieName + "=" + cookieValue + "; expires=" + dateYearFromNow.toUTCString();
 
-		if (HttpStatusTypes.OK == xhr.status || HttpStatusTypes.NOTMODIFIED == xhr.status) {
-			ReloadPage();
-		}
-		else {
-			alert("Delay could not be saved.");
-		}
-	}
+	console.log("< SetCookie()");
+}
 
-	var params = "Delay=" + document.getElementById("requestedDelay").value;
+function SetCookies() {
+	console.log("> SetCookies()");
 
-	xhr.open("GET", "/SetDelay?" + params, true);
-	xhr.send();
+	SetCookie("AllowVideo", (true == document.getElementById("AllowVideo").checked ? "true" : "false"));
+	SetCookie("Delay",      document.getElementById("requestedDelay").value);
 
-	console.log("< SetDelay()");
+	console.log("< SetCookies()");
 }
 
 function ShowControls() {

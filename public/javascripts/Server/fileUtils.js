@@ -32,8 +32,8 @@ class FileUtils {
 	GetFilesList() {
 		this.diags.LogSubCall(this.whoAmI, "GetFilesList", "", "");
 
-		// List of file extensions we recognize:
-		const extensions = [".avi", ".gif", ".jpg", ".jpeg", ".mpg", ".mpeg", ".mp4", ".png", ".tiff", ".wmv"];
+		// List of file extensions we recognize (Note: .wmv can be problemmatic):
+		const extensions = [".avi", ".gif", ".jpg", ".jpeg", ".mpg", ".mpeg", ".mp4", ".png", ".tiff"];
 
 		let filesList = [];  // The list of files to be created.
 

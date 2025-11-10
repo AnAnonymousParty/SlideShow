@@ -34,7 +34,9 @@
      <span>     
       <label class="controllabel" for="requestedDelay">Delay (5-60 seconds):</label>
       <input class="controltextbox" id="requestedDelay" name="requestedDelay" max="60" min="5" type="number" value="<%- conf.GetDelay() %>">
-      <input class="controlbutton"  id="applyBtn"       name="applyBtn" onclick="SetDelay();"  type="button" value="Apply">
+      <label class="controllabel" for="Allow Video">Allow Video</label>
+      <input type="checkbox"       id="AllowVideo" name="AllowVideo">
+      <input class="controlbutton" id="applyBtn"   name="applyBtn" onclick="SetCookies();" type="button" value="Apply">
      </span>
     </div>
    </form>
