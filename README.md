@@ -14,5 +14,8 @@ the default delay between images. The delay may be overidden locally (via
 cookies), as well as an option for allowing or disallowing video files.
 
 
-To run the server, execute the StartServer.bat script, 
-connect the client to: server IP:3000
+To run the server, execute the StartServer.bat script.
+
+Connect the client to: server_IP:3000
+
+The port number (3000 by default) may be changed via bin/www.
