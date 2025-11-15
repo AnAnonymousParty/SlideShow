@@ -42,10 +42,18 @@
    </form>
   </div>
 
+  <%# Conditionally displayed while loading an image: %>
+
+  <div id="ImageLoadingContainer" style=""display: none; visibility: collapse;">
+   <div style="align-items: center; display: flex; height: 100vh; justify-content: center; overflow: hidden;  width: 100vw;">
+    <img alt="Loading Picture..." id="LoadingImage" src="images/loading.gif" style="height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;"\>
+   </div>
+  </div>
+
   <%# Conditionally displayed for an image: %>
 
   <div id="ImageContainer" style=""display: none; visibility: collapse;">
-   <div style="align-items: center; display: flex; height: 98vh; justify-content: center; overflow: hidden;  width: 98vw;">
+   <div style="align-items: center; display: flex; height: 100vh; justify-content: center; overflow: hidden;  width: 100vw;">
     <img alt="Loading Picture..." id="DispImage" src="" style="height: 100vh; object-fit: scale-down; overflow: hidden; width: 100vw;"\>
    </div>
   </div>

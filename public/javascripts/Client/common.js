@@ -140,6 +140,9 @@ function InitPage() {
 
 					img.src = URL.createObjectURL(blob);
 
+					document.getElementById("ImageLoadingContainer").style.display    = "none";
+					document.getElementById("ImageLoadingContainer").style.visibility = "collapse";
+
 					if ("image" == type) {
 						document.getElementById("ImageContainer").style.display    = "flex";
 						document.getElementById("ImageContainer").style.visibility = "visible";
@@ -191,6 +194,15 @@ function InitPage() {
  
 function ReloadPage() {
 	console.log("> ReloadPage()");
+
+	document.getElementById("ImageLoadingContainer").style.display    = "flex";
+	document.getElementById("ImageLoadingContainer").style.visibility = "visible";
+
+	document.getElementById("ImageContainer").style.display    = "none";
+	document.getElementById("ImageContainer").style.visibility = "collapse";
+
+	document.getElementById("VideoContainer").style.display    = "none";
+	document.getElementById("VideoContainer").style.visibility = "collapse";
 	
 	location.href = "http://" + document.getElementById("serverUrl").value;
 
