@@ -63,7 +63,7 @@ class FileUtils {
 				// If the current candidate is just a file, and has an extension that
 				// is in the list of extensions we support, push it to the file list:
 
-				let ext = path.extname(candidate);
+				let ext = (path.extname(candidate)).toLowerCase();
 
 				if (-1 != extensions.indexOf(ext)) { 
 				 filesList.push(candidate);
